@@ -1,6 +1,7 @@
 window.onload = function () {
   const startButton = document.getElementById("start-button");
   const restartButton = document.getElementById("restart-button");
+  const winRestartButton = document.getElementById("win-restart-button");
   let game;
 
   startButton.addEventListener("click", function () {
@@ -8,7 +9,9 @@ window.onload = function () {
   });
 
   restartButton.addEventListener("click", function () {
-    // Call the restartGame function when the button is clicked
+    restartGame();
+  });
+  winRestartButton.addEventListener("click", function () {
     restartGame();
   });
 
@@ -19,14 +22,14 @@ window.onload = function () {
     game.start();
   }
 
-  // The function that reloads the page to start a new game
   function restartGame() {
     location.reload();
   }
 
-  // Function that handles keydown event
   function handleKeydown(event) {
     const key = event.key;
+
+    console.log(key)
     const possibleKeystrokes = [
       "ArrowLeft",
       "ArrowUp",
@@ -34,28 +37,30 @@ window.onload = function () {
       "ArrowDown",
     ];
 
-    // Check if the pressed key is in the possibleKeystrokes array
     if (possibleKeystrokes.includes(key)) {
       event.preventDefault();
 
-      // Update player's directionX and directionY based on the key pressed
       switch (key) {
         case "ArrowLeft":
-          game.player.directionX = -3;
+          console.log("pressed LEFT");
+          game.player.directionX = -70;
+
           break;
         case "ArrowUp":
-          game.player.directionY = -3;
+          console.log("pressed UP");
+          game.player.directionY = -70;
           break;
         case "ArrowRight":
-          game.player.directionX = 3;
+          console.log("pressed RIGHT");
+          game.player.directionX = 70;
           break;
         case "ArrowDown":
-          game.player.directionY = 3;
+          console.log("pressed DOWN");
+          game.player.directionY = 70;
           break;
       }
     }
   }
 
-  // Add the handleKeydown function as an event listener for the keydown event
   window.addEventListener("keydown", handleKeydown);
 };

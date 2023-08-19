@@ -3,9 +3,10 @@ class Game {
       this.startScreen = document.getElementById("game-intro");
       this.gameScreen = document.getElementById("game-screen");
       this.gameEndScreen = document.getElementById("game-end");
+      this.gameWinScreen = document.getElementById("win-game-end")
       this.player = null;
-      this.height = 650;
-      this.width = 900;
+      this.height = 750;
+      this.width = 1000;
       this.obstacles = [];
       this.score = 0;
       this.lives = 1;
@@ -18,7 +19,7 @@ class Game {
         300,
         "./Images/Boy.png"
       );
-    }
+    } 
   
     start() {
       // Set the height and width of the game screen
@@ -68,6 +69,10 @@ class Game {
         else if (obstacle.top > this.height) {
           // Increase the score by 1
           this.score++;
+
+          if(this.score === 5){
+            this.winGame();
+          }
           // Remove the obstacle from the DOM
           obstacle.element.remove();
           // Remove obstacle object from the array
@@ -85,11 +90,24 @@ class Game {
       // Create a new obstacle based on a random probability
       // when there is no other obstacles on the screen
       if (Math.random() > 0.98 && this.obstacles.length < 1) {
-        this.obstacles.push(new Obstacle(this.gameScreen));
+        // some logic to randomly pick shark or seagul 
+
+       const selector =  Math.random()
+
+       let objectType
+
+       if(selector < 0.35){
+        objectType = new SharkObstacle(this.gameScreen)
+       } else if (selector > 0.35 && selector < 0.70){
+        objectType = new SeagullObstacle(this.gameScreen)
+       } else {
+       objectType = new CircleObstacle(this.gameScreen)
+      }
+        this.obstacles.push(objectType);
       }
     }
   
-    // Create a new method responsible for ending the game
+    // Method responsible for ending the game
     endGame() {
       this.player.element.remove();
       this.obstacles.forEach(function (obstacle) {
@@ -102,4 +120,18 @@ class Game {
       // Show end game screen
       this.gameEndScreen.style.display = "block";
     }
-  }
+
+    winGame(){
+      this.player.element.remove();
+      this.obstacles.forEach(function (obstacle) {
+        obstacle.element.remove();
+      });
+  
+      this.gameIsOver = true;
+      // Hide game screen
+      this.gameScreen.style.display = "none";
+      // Show win end game screen
+      this.gameWinScreen.style.display = "block";
+    }
+    }
+  

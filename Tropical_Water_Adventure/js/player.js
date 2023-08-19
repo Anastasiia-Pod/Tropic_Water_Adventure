@@ -24,6 +24,9 @@ class Player {
     this.left += this.directionX;
     this.top += this.directionY;
 
+    this.directionX = 0;
+    this.directionY = 0;
+
     // Ensure the player's windsurf board stays within the game screen
     if (this.left < 10) {
       this.left = 10;
